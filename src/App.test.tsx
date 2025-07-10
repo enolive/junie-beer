@@ -1,10 +1,18 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
-import { setupFormActions } from './test/setup-form-actions.ts'
-import { setupListActions } from './test/setup-list-actions.ts'
+import { setupFormActions } from './test/setup-form-actions'
+import { setupListActions } from './test/setup-list-actions'
+import { beerRepository } from './BeerRepository.ts'
+
+vi.mock('./BeerRepository')
 
 describe('App', () => {
+  beforeEach(() => {
+    mockedLoadBeers.mockClear()
+    mockedLoadBeers.mockReturnValue([])
+  })
+
   it('renders the main header and sections', () => {
     renderComponent()
 
@@ -88,8 +96,95 @@ describe('App', () => {
     expect(screen.getByText('Second Beer')).toBeInTheDocument()
     expect(screen.getByText('Third Beer')).toBeInTheDocument()
   })
+
+  it('loads beers from localStorage on initialization', () => {
+    const mockBeers = [
+      {
+        id: 1,
+        name: 'Saved Beer',
+        brewery: 'Saved Brewery',
+        style: 'IPA',
+        rating: 4,
+        notes: 'Loaded from storage',
+        dateAdded: '1/1/2024',
+      },
+    ]
+    mockedLoadBeers.mockReturnValueOnce(mockBeers)
+
+    renderComponent()
+
+    expect(screen.getByText('Your Beer Collection (1)')).toBeInTheDocument()
+    expect(screen.getByText('Saved Beer')).toBeInTheDocument()
+    expect(screen.getByText('Saved Brewery')).toBeInTheDocument()
+  })
+
+  it('saves beers to localStorage when a beer is added', async () => {
+    const mockBeers = [
+      {
+        id: 1,
+        name: 'Saved Beer',
+        brewery: 'Saved Brewery',
+        style: 'IPA',
+        rating: 4,
+        notes: 'Loaded from storage',
+        dateAdded: '1/1/2024',
+      },
+    ]
+    mockedLoadBeers.mockReturnValueOnce(mockBeers)
+    renderComponent()
+    const actions = setupFormActions()
+
+    await actions.fillAllFields({
+      name: 'New Beer',
+      brewery: 'New Brewery',
+      rating: 4,
+      notes: 'Great beer!',
+      style: 'IPA',
+    })
+    await actions.submitForm()
+
+    expect(mockedSaveBeers).toHaveBeenCalledWith([
+      ...mockBeers,
+      {
+        id: 2,
+        name: 'New Beer',
+        brewery: 'New Brewery',
+        style: 'IPA',
+        rating: 4,
+        notes: 'Great beer!',
+        dateAdded: '11.7.2025',
+      },
+    ])
+  })
+
+  it('updates localStorage when a beer is deleted', async () => {
+    const mockBeers = [
+      {
+        id: 123,
+        name: 'Beer to Delete',
+        brewery: 'Delete Brewery',
+        style: '',
+        rating: 0,
+        notes: '',
+        dateAdded: '1/1/2024',
+      },
+    ]
+    mockedLoadBeers.mockReturnValueOnce(mockBeers)
+    renderComponent()
+    const listActions = setupListActions()
+
+    await listActions.deleteBeer('Beer to Delete')
+
+    expect(mockedSaveBeers).toHaveBeenCalled()
+    const lastCall = mockedSaveBeers.mock.calls[mockedSaveBeers.mock.calls.length - 1]
+    const savedBeers = lastCall[0]
+    expect(savedBeers).toHaveLength(0)
+  })
 })
 
 function renderComponent() {
-  render(<App />)
+  render(<App dateFn={() => new Date('2025-07-11T00:00Z')} />)
 }
+
+const mockedLoadBeers = vi.mocked(beerRepository.loadBeers)
+const mockedSaveBeers = vi.mocked(beerRepository.saveBeers)

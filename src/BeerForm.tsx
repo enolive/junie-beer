@@ -33,7 +33,7 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmitForm)} className="beer-form">
+    <form onSubmit={handleSubmit(onSubmitForm)} className="beer-form" data-testid="add-beer-form">
       <div className="form-group">
         <label htmlFor="name">Beer Name *</label>
         <input {...register('name', { required: true })} type="text" id="name" />

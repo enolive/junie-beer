@@ -5,7 +5,7 @@ export interface Beer {
   name: string
   brewery: string
   style: string
-  rating: string
+  rating: number
   notes: string
   dateAdded: string
 }
@@ -52,7 +52,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers, onDeleteBeer }) => {
                     <>
                       <dt>Rating</dt>
                       <dd>
-                        {'⭐'.repeat(parseInt(beer.rating))} ({beer.rating}/5)
+                        {'⭐'.repeat(beer.rating)} ({beer.rating}/5)
                       </dd>
                     </>
                   )}

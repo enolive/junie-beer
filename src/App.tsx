@@ -1,18 +1,28 @@
-import React, {useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
-import BeerForm, {BeerFormData} from './BeerForm'
-import BeerList, {Beer} from './BeerList'
+import BeerForm, { BeerFormData } from './BeerForm'
+import BeerList, { Beer } from './BeerList'
+import { beerRepository } from './BeerRepository'
 
-const App: React.FC = () => {
-  const [beers, setBeers] = useState<Beer[]>([])
+interface AppProps {
+  dateFn?: () => Date
+}
+
+const App: React.FC<AppProps> = ({ dateFn }) => {
+  const [beers, setBeers] = useState<Beer[]>(() => beerRepository.loadBeers())
+  const getDate = dateFn || (() => new Date())
+
+  useEffect(() => {
+    beerRepository.saveBeers(beers)
+  }, [beers])
 
   const handleBeerSubmit = (beerData: BeerFormData) => {
     const beer: Beer = {
       ...beerData,
-      id: Date.now(),
-      dateAdded: new Date().toLocaleDateString(),
+      id: 0,
+      dateAdded: getDate().toLocaleDateString(undefined, { timeZone: 'UTC' }),
     }
-    setBeers(prev => [...prev, beer])
+    setBeers(prev => [...prev, { ...beer, id: prev.length + 1 }])
   }
 
   const handleDeleteBeer = (id: number) => {
@@ -27,24 +37,14 @@ const App: React.FC = () => {
       </header>
 
       <main className="App-main">
-        <section
-          role="region"
-          aria-labelledby="beer-form-heading"
-          className="add-beer-section"
-        >
+        <section role="region" aria-labelledby="beer-form-heading" className="add-beer-section">
           <h2 id="beer-form-heading">Add New Beer</h2>
-          <BeerForm onSubmit={handleBeerSubmit}/>
+          <BeerForm onSubmit={handleBeerSubmit} />
         </section>
 
-        <section
-          role="region"
-          aria-labelledby="beer-collection-heading"
-          className="beer-list-section"
-        >
-          <h2 id="beer-collection-heading">
-            Your Beer Collection ({beers.length})
-          </h2>
-          <BeerList beers={beers} onDeleteBeer={handleDeleteBeer}/>
+        <section role="region" aria-labelledby="beer-collection-heading" className="beer-list-section">
+          <h2 id="beer-collection-heading">Your Beer Collection ({beers.length})</h2>
+          <BeerList beers={beers} onDeleteBeer={handleDeleteBeer} />
         </section>
       </main>
     </div>
