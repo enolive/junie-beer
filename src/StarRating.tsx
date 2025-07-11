@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { isValidRating, validRatingRange } from './Domain.ts'
 
 export interface StarRatingProps {
   rating?: number
@@ -8,9 +9,7 @@ export interface StarRatingProps {
 
 const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange, labelId }) => {
   const [hoverRating, setHoverRating] = useState<number>(0)
-  const maxRating = 5
-  const validRange = range(1, maxRating)
-  const currentRating = rating && validRange.includes(rating) ? rating : 0
+  const currentRating = rating && isValidRating(rating) ? rating : 0
 
   const handleStarClick = (starValue: number) => {
     onRatingChange(starValue)
@@ -31,7 +30,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange, labelId
       {...(labelId && { 'aria-labelledby': labelId })}
       role="group"
     >
-      {range(1, 5).map(star => (
+      {validRatingRange.map(star => (
         <button
           key={star}
           type="button"
@@ -50,10 +49,6 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange, labelId
       )}
     </div>
   )
-}
-
-function range(start: number, end: number) {
-  return Array.from({ length: end - start + 1 }, (_, i) => start + i)
 }
 
 export default StarRating

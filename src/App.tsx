@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import BeerForm, { BeerFormData } from './BeerForm'
-import BeerList, { Beer } from './BeerList'
+import BeerList from './BeerList'
 import { beerRepository } from './BeerRepository'
+import { Beer } from './Domain.ts'
 
 interface AppProps {
   dateFn?: () => Date

@@ -1,5 +1,6 @@
 // BeerRepository.ts
-import { Beer } from './BeerList'
+
+import { Beer } from './Domain.ts'
 
 const STORAGE_KEY = 'junies-beer-tracker'
 
