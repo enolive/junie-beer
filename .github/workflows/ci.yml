@@ -35,6 +35,8 @@ jobs:
         run: npm run test run
 
       - name: Build
+        env:
+          BASE_URL: /${{ github.event.repository.name }}/
         run: npm run build
 
       - name: Upload build artifact
