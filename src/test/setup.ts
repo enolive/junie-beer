@@ -17,6 +17,19 @@ export const localStorageMock = (() => {
 
 Object.defineProperty(window, 'localStorage', { value: localStorageMock })
 
+// Mock getComputedStyle, needed for antd
+Object.defineProperty(window, 'getComputedStyle', {
+  value: () => ({
+    getPropertyValue: () => '',
+    paddingLeft: '0',
+    paddingRight: '0',
+    borderLeftWidth: '0',
+    borderRightWidth: '0',
+    marginLeft: '0',
+    marginRight: '0',
+  }),
+})
+
 beforeEach(() => {
   vi.clearAllMocks()
 })

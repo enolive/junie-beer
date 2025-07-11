@@ -122,6 +122,24 @@ describe('BeerList', () => {
     expect(mockOnDeleteBeer).toHaveBeenCalledWith(1)
   })
 
+  it('does not cal onDeleteBeer when delete button is clicked but dialog was not confirmed', async () => {
+    const singleBeer: Beer = {
+      id: 1,
+      name: 'Test IPA',
+      brewery: 'Test Brewery',
+      style: 'IPA',
+      rating: 4,
+      notes: 'Great beer',
+      dateAdded: '2024-01-01',
+    }
+    renderComponent([singleBeer])
+    const actions = setupListActions()
+
+    await actions.deleteBeer('Test IPA', false)
+
+    expect(mockOnDeleteBeer).not.toHaveBeenCalled()
+  })
+
   it('calls onDeleteBeer with correct id for multiple beers', async () => {
     const beers: Beer[] = [
       {

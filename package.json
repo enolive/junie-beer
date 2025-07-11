@@ -16,7 +16,9 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "dependencies": {
+    "@ant-design/icons": "^6.0.0",
     "@testing-library/jest-dom": "^6.6.3",
+    "antd": "^5.26.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.60.0"
