@@ -1,8 +1,8 @@
 import React, { createContext, useContext } from 'react'
 
 import { Beer, isValidRating } from './Domain.ts'
-import { Modal, Rate } from 'antd'
-import { ExclamationCircleOutlined } from '@ant-design/icons'
+import { Button, Card, Modal, Rate } from 'antd'
+import { DeleteFilled, ExclamationCircleOutlined } from '@ant-design/icons'
 
 interface BeerListContextType {
   onDeleteBeer: (id: number) => void
@@ -65,13 +65,22 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
   }
 
   return (
-    <article className="beer-card" aria-labelledby={`beer-name-${beer.id}`}>
-      <div className="beer-header">
-        <h3 id={`beer-name-${beer.id}`}>{beer.name}</h3>
-        <button onClick={showDeleteConfirm} className="delete-btn" aria-label={`Delete Beer ${beer.name}`}>
-          ×
-        </button>
-      </div>
+    <Card
+      aria-labelledby={`beer-name-${beer.id}`}
+      title={<h3>{beer.name}</h3>}
+      role="article"
+      className="beer-card"
+      extra={
+        <Button
+          color="danger"
+          variant="solid"
+          onClick={showDeleteConfirm}
+          aria-label={`Delete Beer ${beer.name}`}
+          shape="circle"
+          icon={<DeleteFilled />}
+        />
+      }
+    >
       <dl>
         <dt>Brewery</dt>
         <dd>{beer.brewery}</dd>
@@ -104,7 +113,7 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
         <dt>Added</dt>
         <dd>{formattedDate}</dd>
       </dl>
-    </article>
+    </Card>
   )
 }
 
