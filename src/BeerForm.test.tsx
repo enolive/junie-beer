@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { setupFormActions } from './test/setup-form-actions.ts'
 import BeerForm, { BeerFormProps } from './BeerForm'
@@ -34,6 +34,15 @@ describe('BeerForm', () => {
       rating: 0,
       notes: '',
     })
+  })
+
+  it('changes the star depending on the rating', async () => {
+    renderComponent()
+    const actions = setupFormActions()
+
+    await actions.setRating(4)
+
+    expect(screen.getByRole('status')).toHaveTextContent('4/5')
   })
 
   it('calls onSubmit with all form data when all fields are filled', async () => {

@@ -15,7 +15,7 @@ export interface BeerFormProps {
 }
 
 const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
-  const { register, handleSubmit, setValue, reset } = useForm<BeerFormData>({
+  const { register, handleSubmit, setValue, reset, watch } = useForm<BeerFormData>({
     defaultValues: {
       name: '',
       brewery: '',
@@ -31,6 +31,8 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
       reset()
     }
   }
+
+  const currentRating = watch('rating')
 
   return (
     <form onSubmit={handleSubmit(onSubmitForm)} className="beer-form" data-testid="add-beer-form">
@@ -51,7 +53,7 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
 
       <div className="form-group">
         <label id="rating-label">Rating (1-5)</label>
-        <StarRating rating={0} onRatingChange={value => setValue('rating', Number(value))} labelId="rating-label" />
+        <StarRating rating={currentRating} onRatingChange={value => setValue('rating', value)} labelId="rating-label" />
       </div>
 
       <div className="form-group">
