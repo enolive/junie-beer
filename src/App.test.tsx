@@ -152,7 +152,7 @@ describe('App', () => {
         style: 'IPA',
         rating: 4,
         notes: 'Great beer!',
-        dateAdded: '11.7.2025',
+        dateAdded: '2025-07-11',
       },
     ])
   })

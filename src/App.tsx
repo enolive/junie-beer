@@ -17,10 +17,11 @@ const App: React.FC<AppProps> = ({ dateFn }) => {
   }, [beers])
 
   const handleBeerSubmit = (beerData: BeerFormData) => {
+    const isoDate = getDate().toISOString().split('T')[0]
     const beer: Beer = {
       ...beerData,
       id: 0,
-      dateAdded: getDate().toLocaleDateString(undefined, { timeZone: 'UTC' }),
+      dateAdded: isoDate,
     }
     setBeers(prev => [...prev, { ...beer, id: prev.length + 1 }])
   }
