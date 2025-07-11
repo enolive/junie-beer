@@ -242,7 +242,7 @@ body {
 }
 
 .beer-card {
-  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
