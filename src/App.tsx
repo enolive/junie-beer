@@ -49,6 +49,13 @@ const App: React.FC<AppProps> = ({ dateFn }) => {
           <BeerList beers={beers} onDeleteBeer={handleDeleteBeer} />
         </section>
       </main>
+
+      <footer className="App-footer">
+        <p>Created with the power of the almighty AI</p>
+        <a href="https://www.jetbrains.com/junie" target="_blank" rel="noopener noreferrer">
+          Visit Junie AI's website
+        </a>
+      </footer>
     </div>
   )
 }
