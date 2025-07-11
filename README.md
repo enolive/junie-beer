@@ -2,6 +2,8 @@
 
 A modern, responsive web application for tracking your favorite beers! Built with React, this app allows you to catalog beers you've tried, rate them, and keep notes about your tasting experiences.
 
+See the app on [GitHub Pages](https://enolive.github.io/junie-beer/)
+
 ## Features
 
 - ✨ **Add New Beers**: Track beer name, brewery, style, rating, and personal notes
