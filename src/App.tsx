@@ -46,7 +46,7 @@ const App: React.FC<AppProps> = ({ dateFn }) => {
 
         <section role="region" aria-labelledby="beer-collection-heading" className="beer-list-section">
           <h2 id="beer-collection-heading">Your Beer Collection ({beers.length})</h2>
-          <BeerList beers={beers} onDeleteBeer={handleDeleteBeer} />
+          <BeerList beers={beers} onDeleteBeer={handleDeleteBeer} labelId="beer-collection-heading" />
         </section>
       </main>
 

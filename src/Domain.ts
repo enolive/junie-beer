@@ -1,4 +1,4 @@
-const maxRating = 5
+export const maxRating = 5
 export const validRatingRange = range(1, maxRating)
 export const isValidRating = (rating: number) => validRatingRange.includes(rating)
 

@@ -50,7 +50,8 @@ export const setupFormActions = () => {
     },
 
     async setRating(stars: number) {
-      const starButtons = screen.getAllByRole('button', { name: /^Rate \d star/ })
+      const starInput = screen.getByRole('list', { name: 'Rating (1-5)' })
+      const starButtons = within(starInput).getAllByRole('radio')
       await user.click(starButtons[stars - 1])
     },
   }

@@ -182,10 +182,8 @@ body {
 }
 
 .rating-text {
-  margin-left: 8px;
-  font-size: 0.9rem;
-  color: #666;
-  font-weight: 500;
+  display: flex;
+  gap: 6px;
 }
 
 .submit-btn {

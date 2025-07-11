@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import StarRating, { StarRatingProps } from './StarRating'
 import userEvent from '@testing-library/user-event'
@@ -11,24 +11,8 @@ describe('StarRating', () => {
   it('renders 5 star buttons', () => {
     renderComponent()
 
-    const starButtons = screen.getAllByRole('button')
+    const starButtons = screen.getAllByRole('radio')
     expect(starButtons).toHaveLength(5)
-    expect(starButtons[0]).toHaveAccessibleName('Rate 1 star')
-    expect(starButtons[1]).toHaveAccessibleName('Rate 2 stars')
-    expect(starButtons[2]).toHaveAccessibleName('Rate 3 stars')
-    expect(starButtons[3]).toHaveAccessibleName('Rate 4 stars')
-    expect(starButtons[4]).toHaveAccessibleName('Rate 5 stars')
-  })
-
-  it('displays the correct number of filled stars based on rating', () => {
-    renderComponent(3)
-
-    const starButtons = screen.getAllByRole('button')
-    expect(starButtons[0]).toHaveClass('star-filled')
-    expect(starButtons[1]).toHaveClass('star-filled')
-    expect(starButtons[2]).toHaveClass('star-filled')
-    expect(starButtons[3]).toHaveClass('star-empty')
-    expect(starButtons[4]).toHaveClass('star-empty')
   })
 
   it('displays rating text when rating is provided', () => {
@@ -36,6 +20,12 @@ describe('StarRating', () => {
 
     const ratingStatus = screen.getByRole('status', { name: 'Current rating' })
     expect(ratingStatus).toHaveTextContent('(4/5)')
+    const starButtons = screen.getAllByRole('radio')
+    expect(starButtons[0]).toBeChecked()
+    expect(starButtons[1]).toBeChecked()
+    expect(starButtons[2]).toBeChecked()
+    expect(starButtons[3]).toBeChecked()
+    expect(starButtons[4]).not.toBeChecked()
   })
 
   describe('does not display rating text when rating is invalid or empty', () => {
@@ -44,8 +34,8 @@ describe('StarRating', () => {
 
       const ratingStatus = screen.queryByRole('status', { name: 'Current rating' })
       expect(ratingStatus).not.toBeInTheDocument()
-      const starButtons = screen.getAllByRole('button')
-      starButtons.forEach(button => expect(button).toHaveClass('star-empty'))
+      const starButtons = screen.getAllByRole('radio')
+      starButtons.forEach(button => expect(button).not.toBeChecked())
     })
   })
 
@@ -53,71 +43,57 @@ describe('StarRating', () => {
     const user = userEvent.setup()
     renderComponent()
 
-    const thirdStar = screen.getByRole('button', { name: 'Rate 3 stars' })
+    const thirdStar = screen.getAllByRole('radio')[2]
     await user.click(thirdStar)
 
     expect(mockOnRatingChange).toHaveBeenCalledWith(3)
   })
 
-  it('updates hover state on mouse enter and leave', async () => {
-    const user = userEvent.setup()
-    renderComponent(1)
+  it('supports labelling', () => {
+    renderComponent(3, 'test-label')
 
-    const starButtons = screen.getAllByRole('button')
-    const fourthStar = starButtons[3]
-
-    await user.hover(fourthStar)
-
-    // The first 4 stars should be filled due to hover
-    expect(starButtons[0]).toHaveClass('star-filled')
-    expect(starButtons[1]).toHaveClass('star-filled')
-    expect(starButtons[2]).toHaveClass('star-filled')
-    expect(starButtons[3]).toHaveClass('star-filled')
-    expect(starButtons[4]).toHaveClass('star-empty')
-
-    // Mouse leave should reset to the original rating
-    const container = screen.getByRole('group')
-    await user.unhover(container)
-
-    // Should go back to showing only 1 star filled
-    expect(starButtons[0]).toHaveClass('star-filled')
-    expect(starButtons[1]).toHaveClass('star-empty')
-    expect(starButtons[2]).toHaveClass('star-empty')
-    expect(starButtons[3]).toHaveClass('star-empty')
-    expect(starButtons[4]).toHaveClass('star-empty')
+    const container = screen.getByRole('list')
+    expect(container).toHaveAttribute('aria-labelledby', 'test-label')
   })
 
   it('works without labelId prop', () => {
     renderComponent(3)
 
-    const container = screen.getByRole('group')
+    const container = screen.getByRole('list')
     expect(container).not.toHaveAttribute('aria-labelledby')
   })
 
   it('handles rating at maximum value', () => {
     renderComponent(5)
 
-    const starButtons = screen.getAllByRole('button')
+    const starButtons = screen.getAllByRole('radio')
 
     // All stars should be filled
     starButtons.forEach(button => {
-      expect(button).toHaveClass('star-filled')
+      expect(button).toBeChecked()
     })
 
     expect(screen.getByText('(5/5)')).toBeInTheDocument()
   })
 
-  it('allows clicking the same star multiple times', () => {
+  it('allows clicking a star to set the rating', async () => {
+    const user = userEvent.setup()
+    renderComponent()
+
+    const thirdStar = screen.getAllByRole('radio')[2]
+    await user.click(thirdStar)
+
+    expect(mockOnRatingChange).toHaveBeenCalledWith(3)
+  })
+
+  it('allows clicking the same star multiple times to reset the rating', async () => {
+    const user = userEvent.setup()
     renderComponent(3)
 
-    const thirdStar = screen.getAllByRole('button')[2]
+    const thirdStar = screen.getAllByRole('radio')[2]
+    await user.click(thirdStar)
 
-    fireEvent.click(thirdStar)
-    expect(mockOnRatingChange).toHaveBeenCalledWith(3)
-
-    fireEvent.click(thirdStar)
-    expect(mockOnRatingChange).toHaveBeenCalledTimes(2)
-    expect(mockOnRatingChange).toHaveBeenLastCalledWith(3)
+    expect(mockOnRatingChange).toHaveBeenCalledWith(0)
   })
 })
 

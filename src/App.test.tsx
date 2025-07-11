@@ -73,7 +73,7 @@ describe('App', () => {
     expect(screen.getByText('Craft Brewery')).toBeInTheDocument()
     expect(screen.getByText('IPA')).toBeInTheDocument()
     expect(screen.getByText('Very hoppy and delicious')).toBeInTheDocument()
-    expect(screen.getByText('⭐⭐⭐⭐ (4/5)')).toBeInTheDocument()
+    expect(screen.getByText('(4/5)')).toBeInTheDocument()
   })
 
   it('deletes a beer when delete button is clicked', async () => {

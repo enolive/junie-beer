@@ -41,7 +41,7 @@ describe('BeerList', () => {
     expect(terms[1]).toHaveTextContent('Style')
     expect(definitions[1]).toHaveTextContent('IPA')
     expect(terms[2]).toHaveTextContent('Rating')
-    expect(definitions[2]).toHaveTextContent('⭐⭐⭐⭐ (4/5)')
+    expect(definitions[2]).toHaveTextContent('(4/5)')
     expect(terms[3]).toHaveTextContent('Notes')
     expect(definitions[3]).toHaveTextContent('Great beer')
     expect(terms[4]).toHaveTextContent('Added')
@@ -97,8 +97,8 @@ describe('BeerList', () => {
 
     renderComponent(beers)
 
-    const list = screen.getByRole('list')
-    const listItems = within(list).getAllByRole('listitem')
+    const list = screen.getByRole('list', { name: 'Beers' })
+    const listItems = within(list).getAllByRole('article')
     expect(listItems).toHaveLength(2)
     expect(listItems[0]).toHaveTextContent('Test IPA')
     expect(listItems[1]).toHaveTextContent('Simple Beer')
@@ -202,7 +202,12 @@ describe('BeerList', () => {
 })
 
 function renderComponent(beers: Beer[]) {
-  render(<BeerList beers={beers} onDeleteBeer={mockOnDeleteBeer} locale={'de-DE'} />)
+  render(
+    <>
+      <h1 id="heading">Beers</h1>
+      <BeerList beers={beers} onDeleteBeer={mockOnDeleteBeer} locale={'de-DE'} labelId="heading" />
+    </>
+  )
 }
 
 const mockOnDeleteBeer = vi.mocked<BeerListProps['onDeleteBeer']>(vi.fn())

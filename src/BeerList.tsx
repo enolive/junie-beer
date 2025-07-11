@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react'
 
 import { Beer, isValidRating } from './Domain.ts'
-import { Modal } from 'antd'
+import { Modal, Rate } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 
 interface BeerListContextType {
@@ -18,9 +18,10 @@ export interface BeerListProps {
   beers: Beer[]
   onDeleteBeer: (id: number) => void
   locale?: string
+  labelId?: string
 }
 
-const BeerList: React.FC<BeerListProps> = ({ beers, onDeleteBeer, locale }) => {
+const BeerList: React.FC<BeerListProps> = ({ beers, onDeleteBeer, locale, labelId }) => {
   return (
     <BeerListContext.Provider value={{ onDeleteBeer, locale }}>
       {beers.length === 0 ? (
@@ -28,7 +29,7 @@ const BeerList: React.FC<BeerListProps> = ({ beers, onDeleteBeer, locale }) => {
           No beers added yet. Add your first beer above!
         </div>
       ) : (
-        <ul className="beer-grid" role="list">
+        <ul className="beer-grid" role="list" aria-labelledby={labelId}>
           {beers.map(beer => (
             <li key={beer.id}>
               <BeerCard beer={beer} />
@@ -86,7 +87,9 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
           <>
             <dt>Rating</dt>
             <dd>
-              {'⭐'.repeat(beer.rating)} ({beer.rating}/5)
+              <output className="rating-text" aria-label="Beer rating">
+                <Rate value={beer.rating} disabled />({beer.rating}/5)
+              </output>
             </dd>
           </>
         )}
