@@ -2,9 +2,11 @@
 
 exports[`App > renders the footer with correct text and link 1`] = `
 <footer
-  class="App-footer"
+  class="text-center mt-10 mb-5 p-6 gradient-background rounded-2xl shadow-lg text-white"
 >
-  <p>
+  <p
+    class="mb-2 opacity-90"
+  >
     Created with the 
     <b>
       help
@@ -12,6 +14,7 @@ exports[`App > renders the footer with correct text and link 1`] = `
      of the almighty AI
   </p>
   <a
+    class="text-white font-semibold border-b-2 border-white/50 hover:border-white transition-colors"
     href="https://www.jetbrains.com/junie"
     rel="noopener noreferrer"
     target="_blank"
