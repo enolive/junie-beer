@@ -1,8 +1,8 @@
 import React, { createContext, useContext } from 'react'
-
 import { Beer, isValidRating } from './Domain.ts'
 import { Button, Card, Modal, Rate } from 'antd'
 import { DeleteFilled, ExclamationCircleOutlined } from '@ant-design/icons'
+import './BeerList.css'
 
 interface BeerListContextType {
   onDeleteBeer: (id: number) => void
@@ -25,11 +25,15 @@ const BeerList: React.FC<BeerListProps> = ({ beers, onDeleteBeer, locale, labelI
   return (
     <BeerListContext.Provider value={{ onDeleteBeer, locale }}>
       {beers.length === 0 ? (
-        <div role="status" aria-label="Beer collection status" className="no-beers">
+        <div
+          role="status"
+          aria-label="Beer collection status"
+          className="text-center text-gray-500 p-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300"
+        >
           No beers added yet. Add your first beer above!
         </div>
       ) : (
-        <ul className="beer-grid" role="list" aria-labelledby={labelId}>
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-6" role="list" aria-labelledby={labelId}>
           {beers.map(beer => (
             <li key={beer.id}>
               <BeerCard beer={beer} />
@@ -67,7 +71,7 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
   return (
     <Card
       aria-labelledby={`beer-name-${beer.id}`}
-      title={<h3>{beer.name}</h3>}
+      title={<h3 className="text-xl font-semibold">{beer.name}</h3>}
       role="article"
       className="beer-card"
       extra={
@@ -81,7 +85,7 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
         />
       }
     >
-      <dl>
+      <dl className="beer-definition-list">
         <dt>Brewery</dt>
         <dd>{beer.brewery}</dd>
 
@@ -96,8 +100,9 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
           <>
             <dt>Rating</dt>
             <dd>
-              <output className="rating-container" aria-label="Beer rating">
-                <Rate value={beer.rating} disabled />({beer.rating}/5)
+              <output className="flex items-center gap-2" aria-label="Beer rating">
+                <Rate value={beer.rating} disabled />
+                <span className="text-gray-600">({beer.rating}/5)</span>
               </output>
             </dd>
           </>

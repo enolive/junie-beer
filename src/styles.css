@@ -1,0 +1,34 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-gradient-from: #667eea;
+  --color-gradient-to: #764ba2;
+  --color-header-underline: #667eea;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+.section-header {
+  @apply text-2xl font-bold text-gray-800 mb-6 pb-3 border-b-3 border-header-underline;
+}
+
+.gradient-background {
+  @apply bg-gradient-to-r from-gradient-from to-gradient-to;
+}
+
+.rating-container {
+  display: flex;
+  gap: 6px;
+}
+
+.rating-container .rating-output {
+  padding: 0;
+}

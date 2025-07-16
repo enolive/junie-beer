@@ -37,9 +37,9 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
     <Form
       onFinish={handleSubmit(onSubmitForm)}
       layout="vertical"
-      className="beer-form"
       data-testid="add-beer-form"
       size="large"
+      className="space-y-4"
     >
       <Form.Item label="Beer Name" required htmlFor="beer-name">
         <Controller
@@ -98,17 +98,19 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
               {...field}
               placeholder="Your thoughts about this beer..."
               rows={3}
-              style={{
-                resize: 'vertical',
-                minHeight: '100px',
-              }}
+              className="min-h-[100px] resize-y"
             />
           )}
         />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" size="large" className="gradient-button">
+        <Button
+          type="primary"
+          htmlType="submit"
+          size="large"
+          className="w-full gradient-background hover:shadow-lg transition-all duration-300"
+        >
           Add Beer
         </Button>
       </Form.Item>

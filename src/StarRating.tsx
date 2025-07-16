@@ -13,7 +13,7 @@ const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful']
 const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange, 'aria-labelledby': ariaLabelledby }) => {
   const currentRating = rating && isValidRating(rating) ? rating : 0
   return (
-    <div className="rating-container">
+    <div className="flex items-center gap-2">
       <Rate
         value={currentRating}
         onChange={onRatingChange}
@@ -23,7 +23,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange, 'aria-l
         tooltips={desc}
       />
       {currentRating > 0 && (
-        <output className="rating-output" aria-label="Current rating">
+        <output className="!p-0" aria-label="Current rating">
           ({currentRating}/5)
         </output>
       )}
