@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
 import { setupFormActions } from './test/setup-form-actions'
@@ -26,14 +26,7 @@ describe('App', () => {
     renderComponent()
 
     const footer = screen.getByRole('contentinfo')
-    expect(footer).toBeInTheDocument()
-    expect(footer).toHaveTextContent('Created with the power of the almighty AI')
-
-    const link = within(footer).getByRole('link')
-    expect(link).toHaveTextContent("Visit Junie AI's website")
-    expect(link).toHaveAttribute('href', 'https://www.jetbrains.com/junie')
-    expect(link).toHaveAttribute('target', '_blank')
-    expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+    expect(footer).toMatchSnapshot()
   })
 
   it('shows empty state message when no beers are added', () => {

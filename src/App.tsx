@@ -51,7 +51,9 @@ const App: React.FC<AppProps> = ({ dateFn }) => {
       </main>
 
       <footer className="App-footer">
-        <p>Created with the power of the almighty AI</p>
+        <p>
+          Created with the <b>help</b> of the almighty AI
+        </p>
         <a href="https://www.jetbrains.com/junie" target="_blank" rel="noopener noreferrer">
           Visit Junie AI's website
         </a>

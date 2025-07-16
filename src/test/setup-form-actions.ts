@@ -15,8 +15,8 @@ export const setupFormActions = () => {
   const getFormInputs = () => {
     const form = screen.getByTestId('add-beer-form')
     return {
-      nameInput: within(form).getByLabelText('Beer Name *'),
-      breweryInput: within(form).getByLabelText('Brewery *'),
+      nameInput: within(form).getByLabelText('Beer Name'),
+      breweryInput: within(form).getByLabelText('Brewery'),
       styleInput: within(form).getByLabelText('Style'),
       notesInput: within(form).getByLabelText('Notes'),
       saveButton: within(form).getByRole('button', { name: 'Add Beer' }),

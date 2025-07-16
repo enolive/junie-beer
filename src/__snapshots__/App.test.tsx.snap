@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App > renders the footer with correct text and link 1`] = `
+<footer
+  class="App-footer"
+>
+  <p>
+    Created with the 
+    <b>
+      help
+    </b>
+     of the almighty AI
+  </p>
+  <a
+    href="https://www.jetbrains.com/junie"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    Visit Junie AI's website
+  </a>
+</footer>
+`;

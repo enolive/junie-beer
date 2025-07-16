@@ -98,7 +98,7 @@ describe('StarRating', () => {
 })
 
 function renderComponent(stars?: number, labelId?: string) {
-  render(<StarRating rating={stars} onRatingChange={mockOnRatingChange} labelId={labelId} />)
+  render(<StarRating rating={stars} onRatingChange={mockOnRatingChange} aria-labelledby={labelId} />)
 }
 
 const mockOnRatingChange = vi.mocked<StarRatingProps['onRatingChange']>(vi.fn())

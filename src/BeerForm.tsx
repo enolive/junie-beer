@@ -1,6 +1,7 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
-import StarRating from './StarRating'
+import { Controller, useForm } from 'react-hook-form'
+import { Button, Form, Input } from 'antd'
+import StarRating from './StarRating.tsx'
 
 export interface BeerFormData {
   name: string
@@ -15,7 +16,7 @@ export interface BeerFormProps {
 }
 
 const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
-  const { register, handleSubmit, setValue, reset, watch } = useForm<BeerFormData>({
+  const { control, handleSubmit, reset } = useForm<BeerFormData>({
     defaultValues: {
       name: '',
       brewery: '',
@@ -32,39 +33,71 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
     }
   }
 
-  const currentRating = watch('rating')
-
   return (
-    <form onSubmit={handleSubmit(onSubmitForm)} className="beer-form" data-testid="add-beer-form">
-      <div className="form-group">
-        <label htmlFor="name">Beer Name *</label>
-        <input {...register('name', { required: true })} type="text" id="name" />
-      </div>
+    <Form onFinish={handleSubmit(onSubmitForm)} layout="vertical" className="beer-form" data-testid="add-beer-form">
+      <Form.Item label="Beer Name" required htmlFor="beer-name">
+        <Controller
+          name="name"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => <Input id="beer-name" {...field} />}
+        />
+      </Form.Item>
 
-      <div className="form-group">
-        <label htmlFor="brewery">Brewery *</label>
-        <input {...register('brewery', { required: true })} type="text" id="brewery" />
-      </div>
+      <Form.Item label="Brewery" required htmlFor="brewery">
+        <Controller
+          name="brewery"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => <Input id="brewery" {...field} />}
+        />
+      </Form.Item>
 
-      <div className="form-group">
-        <label htmlFor="style">Style</label>
-        <input {...register('style')} type="text" id="style" placeholder="e.g., IPA, Stout, Lager" />
-      </div>
+      <Form.Item label="Style" htmlFor="style">
+        <Controller
+          name="style"
+          control={control}
+          render={({ field }) => <Input id="style" {...field} placeholder="e.g., IPA, Stout, Lager" />}
+        />
+      </Form.Item>
 
-      <div className="form-group">
-        <label id="rating-label">Rating (1-5)</label>
-        <StarRating rating={currentRating} onRatingChange={value => setValue('rating', value)} labelId="rating-label" />
-      </div>
+      <Form.Item>
+        {/*
+        the rating is not a real input element but a collection of stars,
+        so a label would not apply here!
 
-      <div className="form-group">
-        <label htmlFor="notes">Notes</label>
-        <textarea {...register('notes')} id="notes" placeholder="Your thoughts about this beer..." rows={3} />
-      </div>
+        mimic an antd label here to make it visually similar to the real labels
+        */}
+        <div className="ant-col ant-form-item-label">
+          <span id="rating-label" className="ant-form-item-label">
+            Rating (1-5)
+          </span>
+        </div>
+        <Controller
+          name="rating"
+          control={control}
+          render={({ field: { value, onChange } }) => (
+            <StarRating rating={value} onRatingChange={onChange} aria-labelledby="rating-label" />
+          )}
+        />
+      </Form.Item>
 
-      <button type="submit" className="submit-btn">
-        Add Beer
-      </button>
-    </form>
+      <Form.Item label="Notes" htmlFor="notes">
+        <Controller
+          name="notes"
+          control={control}
+          render={({ field }) => (
+            <Input.TextArea id="notes" {...field} placeholder="Your thoughts about this beer..." rows={3} />
+          )}
+        />
+      </Form.Item>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Add Beer
+        </Button>
+      </Form.Item>
+    </Form>
   )
 }
 
