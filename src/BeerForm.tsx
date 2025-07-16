@@ -109,7 +109,7 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
           type="primary"
           htmlType="submit"
           size="large"
-          className="gradient-background w-full hover:shadow-lg transition-transform duration-300 hover:-translate-y-2"
+          className="gradient-background w-full hover:shadow-lg transition-transform duration-300 hover:-translate-y-1"
         >
           Add Beer
         </Button>
