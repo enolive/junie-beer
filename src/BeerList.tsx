@@ -96,7 +96,7 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
           <>
             <dt>Rating</dt>
             <dd>
-              <output className="rating-text" aria-label="Beer rating">
+              <output className="rating-container" aria-label="Beer rating">
                 <Rate value={beer.rating} disabled />({beer.rating}/5)
               </output>
             </dd>

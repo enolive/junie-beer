@@ -34,13 +34,19 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
   }
 
   return (
-    <Form onFinish={handleSubmit(onSubmitForm)} layout="vertical" className="beer-form" data-testid="add-beer-form">
+    <Form
+      onFinish={handleSubmit(onSubmitForm)}
+      layout="vertical"
+      className="beer-form"
+      data-testid="add-beer-form"
+      size="large"
+    >
       <Form.Item label="Beer Name" required htmlFor="beer-name">
         <Controller
           name="name"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => <Input id="beer-name" {...field} />}
+          render={({ field }) => <Input id="beer-name" prefix="🍺" {...field} placeholder="Enter beer name" />}
         />
       </Form.Item>
 
@@ -49,7 +55,7 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
           name="brewery"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => <Input id="brewery" {...field} />}
+          render={({ field }) => <Input id="brewery" prefix="🏠" {...field} placeholder="Enter brewery name" />}
         />
       </Form.Item>
 
@@ -57,7 +63,7 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
         <Controller
           name="style"
           control={control}
-          render={({ field }) => <Input id="style" {...field} placeholder="e.g., IPA, Stout, Lager" />}
+          render={({ field }) => <Input id="style" prefix="💄" {...field} placeholder="e.g., IPA, Stout, Lager" />}
         />
       </Form.Item>
 
@@ -87,13 +93,22 @@ const BeerForm: React.FC<BeerFormProps> = ({ onSubmit }) => {
           name="notes"
           control={control}
           render={({ field }) => (
-            <Input.TextArea id="notes" {...field} placeholder="Your thoughts about this beer..." rows={3} />
+            <Input.TextArea
+              id="notes"
+              {...field}
+              placeholder="Your thoughts about this beer..."
+              rows={3}
+              style={{
+                resize: 'vertical',
+                minHeight: '100px',
+              }}
+            />
           )}
         />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" size="large" className="gradient-button">
           Add Beer
         </Button>
       </Form.Item>
