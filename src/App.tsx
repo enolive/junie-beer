@@ -39,11 +39,11 @@ const App: React.FC<AppProps> = ({ dateFn }) => {
         </p>
       </header>
 
-      <main className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <main className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <section
           role="region"
           aria-labelledby="beer-form-heading"
-          className="md:col-span-1 bg-white p-8 rounded-2xl shadow-lg"
+          className="lg:col-span-1 bg-white p-8 rounded-2xl shadow-lg"
         >
           <h2 id="beer-form-heading" className="section-header">
             Add New Beer
@@ -54,7 +54,7 @@ const App: React.FC<AppProps> = ({ dateFn }) => {
         <section
           role="region"
           aria-labelledby="beer-collection-heading"
-          className="md:col-span-2 bg-white p-8 rounded-2xl shadow-lg"
+          className="lg:col-span-2 bg-white p-8 rounded-2xl shadow-lg"
         >
           <h2 id="beer-collection-heading" className="section-header">
             Your Beer Collection ({beers.length})
